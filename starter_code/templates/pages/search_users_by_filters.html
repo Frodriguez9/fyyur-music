@@ -1,0 +1,77 @@
+{% extends 'pages/shows.html' %}
+{% block title %}Users Search{% endblock %}
+{% block body %}
+<p></p>
+<div class="page-header">
+    <h1>Fyyur Search!</h1>
+</div>
+<div class="form-wrapper">
+  <p class="lead"> Users Search </p>
+  <p> Filters: </p>
+  <form id="google-form" class="form" method="POST" action="/advance_user_search">
+    {{ form.hidden_tag() }}
+  <div class="form-group">
+    <div class="form-inline">
+      <div class="form-group">
+        {{ form.city(class_ = 'form-control', placeholder='City', autofocus = true) }}
+      </div>
+      <div class="form-group">
+        {{ form.state(class_ = 'form-control', placeholder='State', autofocus = true) }}
+      </div>
+    </div>
+  </div>
+    <div class="form-group">
+      {{ form.type(class_ = 'form-control', placeholder='Venue or Artist?', autofocus = true) }}
+    </div>
+    <div class="form-group">
+      <label for="genres">Genres</label>
+      {{ form.genres(class_ = 'form-control', placeholder='Genres', autofocus = true) }}
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary btn-sml" form="google-form" type="submit" name="button">Search</button>
+    </div>
+  </form>
+</div>
+<div>
+  {% if request.method == 'POST' and data.results_count == 0 %}
+    <h4>Sorry, there are no shows matching your search.
+        Try  again using less narrow filters!
+    </h4>
+
+  {% elif request.method == 'POST' and data.results_count == 1 %}
+
+    <h4>We identify {{data.results_count}} user with the criteria
+        your are looking for!</h4>
+
+  {% elif request.method == 'POST' and data.results_count > 1 %}
+    <h4>We identify {{data.results_count}} users with the criteria
+        your are looking for!</h4>
+  {% endif %}
+  <p><br><br></p>
+
+  {% if request.method == 'POST' %}
+  <div class="row show">
+    {%for user in data.results %}
+    <div class="col-sm-4">
+        <div class="tile tile-show">
+          {% if user.type == 'Venue'%}
+            <h5><a href="/venues/{{ user.id }}">{{ user.name }}</a></h5>
+          {% else %}
+            <h5><a href="/artists/{{ user.id }}">{{ user.name }}</a></h5>
+          {% endif %}
+          <p>{{ user.type}}</p>
+            <img src="{{ user.image_link }}" alt="User Image" />
+        </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% endif %}
+
+  </div>
+
+
+
+
+</div>
+{% endblock %}

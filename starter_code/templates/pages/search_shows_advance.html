@@ -1,0 +1,47 @@
+{% extends 'pages/shows.html' %}
+{% block title %}Show Search{% endblock %}
+{% block body %}
+<p></p>
+  <div class="page-header">
+      <h1>Fyyur Search!</h1>
+  </div>
+  <div class="form-wrapper">
+    <p class="lead"> Show Search </p>
+    <p> Filters: </p>
+    <form id="google-form" class="form" method="POST" action="/search_shows_advance">
+      {{ form.hidden_tag() }}
+      <div class="form-inline">
+        <div class="form-group">
+          {{ form.artist_name(class_ = 'form-control', placeholder='Artist Name', autofocus = true) }}
+        </div>
+        <div class="form-group">
+          {{ form.venue_name(class_ = 'form-control', placeholder='Venue Name', autofocus = true) }}
+        </div>
+        <div class="form-group">
+          {{ form.city(class_ = 'form-control', placeholder='City', autofocus = true) }}
+        </div>
+        <div class="form-group">
+          {{ form.state(class_ = 'form-control', placeholder='State', autofocus = true) }}
+        </div>
+      </div>
+      <br>
+        <div class="form-group">
+          <label for="start_time">Start Time</label>
+          <small>filter will return all shows on or after selected date</small>
+          {{ form.start_time(class_ = 'form-control', placeholder='YYYY-MM-DD HH:MM', autofocus = true) }}
+        </div>
+    </form>
+    <div>
+        <button class="btn btn-primary btn-sml" form="google-form" type="submit" name="button">Shows</button>
+    </div>
+    <div>
+      {% if request.method == 'POST' and count == 0 %}
+      <h3>Sorry, there are no shows matching your filters. Try  again using less narrow filters!</h3>
+      {% endif %}
+      <br>
+      <br>
+    </div>
+
+  </div>
+
+{% endblock %}
