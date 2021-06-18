@@ -25,9 +25,11 @@ See in the home page the latest venues or artists that have created a profile in
 6. Then, run the following command on the 'started_code' directory:
 
     $ flask db init
+    
     $ flask db migrate -m "Initial migration"
+    
     $ flask db upgrade
-
+    
     $ FLASK_APP=app.py flask run
 
  This should give you the local port where you can access Fyyur via your preferred browser!
